@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🎂 Birthday Blowout | Blow the Candles!</title>
+  <!-- canvas-confetti library for celebration effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    input, button, label {
+      user-select: text;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #1e3c72 0%, #2b3b4e 100%);
+      font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    /* main card container */
+    .birthday-card {
+      max-width: 750px;
+      width: 100%;
+      background: rgba(255, 248, 225, 0.95);
+      border-radius: 3rem;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255,255,255,0.6);
+      overflow: hidden;
+      backdrop-filter: blur(2px);
+      transition: all 0.2s ease;
+      padding: 1.5rem 1.8rem 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      letter-spacing: -0.5px;
+      color: #e76f51;
+      text-shadow: 2px 2px 0 #f4d58c;
+      margin-bottom: 0.25rem;
+    }
+
+    .sub {
+      text-align: center;
+      color: #6c4e3a;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* name & wish section */
+    .personalization {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      background: #ffefcf;
+      padding: 0.8rem 1.2rem;
+      border-radius: 60px;
+      margin-bottom: 1.8rem;
+    }
+
+    .name-input {
+      flex: 2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      padding: 0 1rem;
+      border-radius: 40px;
+      box-shadow: inset 0 1px 3px #0001, 0 1px 2px white;
+    }
+
+    .name-input label {
+      font-weight: 600;
+      color: #b45f2b;
+    }
+
+    .name-input input {
+      border: none;
+      padding: 10px 0;
+      font-size: 1rem;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      width: 140px;
+      font-weight: 500;
+      color: #2f3e46;
+    }
+
+    .wish-badge {
+      background: #f4a261;
+      border-radius: 40px;
+      padding: 8px 16px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* cake & candles area */
+    .cake-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1.2rem 0 1.5rem;
+    }
+
+    .cake {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0 12px 12px rgba(0,0,0,0.2));
+    }
+
+    .cake-base {
+      background: #e9c891;
+      width: 260px;
+      height: 100px;
+      border-radius: 20px 20px 40px 40px;
+      background: linear-gradient(145deg, #f7d794, #e6bc7e);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1), 0 8px 12px rgba(0,0,0,0.2);
+      border-bottom: 4px solid #c28a4b;
+    }
+
+    .cake-middle {
+      background: #f5cd94;
+      width: 220px;
+      height: 70px;
+      border-radius: 20px 20px 30px 30px;
+      margin-bottom: -15px;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #ffdd9e, #f0c27b);
+    }
+
+    .cake-top {
+      background: #ffd966;
+      width: 180px;
+      height: 45px;
+      border-radius: 30px 30px 20px 20px;
+      margin-bottom: 5px;
+      background: radial-gradient(circle at 30% 20%, #ffeaac, #f5bc70);
+      box-shadow: inset 0 1px 4px #ffeecc;
+    }
+
+    /* candles container */
+    .candles-container {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: -20px;
+      z-index: 10;
+      position: relative;
+      top: 12px;
+    }
+
+    .candle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
+    }
+
+    .candle-body {
+      background: linear-gradient(145deg, #ff6b6b, #e64b4b);
+      width: 30px;
+      height: 70px;
+      border-radius: 15px 15px 6px 6px;
+      box-shadow: inset -2px -2px 0 rgba(0,0,0,0.1), inset 2px 2px 0 rgba(255,255,255,0.4);
+    }
+
+    /* flame styling */
+    .flame {
+      width: 22px;
+      height: 32px;
+      background: radial-gradient(circle, #ffb347, #ff7300);
+      border-radius: 50% 50% 40% 40%;
+      filter: blur(0.4px);
+      margin-bottom: -8px;
+      transform-origin: bottom;
+      transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+      box-shadow: 0 0 12px #ffa500;
+      cursor: pointer;
+    }
+
+    /* extinguished effect (flame off) */
+    .flame.extinguished {
+      opacity: 0;
+      transform: scale(0.2) translateY(8px);
+      box-shadow: none;
+      transition: 0.25s ease-out;
+    }
+
+    /* control buttons panel */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    button {
+      background: #2a9d8f;
+      border: none;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 12px 24px;
+      border-radius: 60px;
+      min-width: 150px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.1s, background 0.2s;
+      box-shadow: 0 5px 0 #1e6b5e;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #1e6b5e;
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.85);
+      outline-offset: 4px;
+    }
+
+    button.mic-btn {
+      background: #e76f51;
+      box-shadow: 0 5px 0 #b6451e;
+    }
+
+    button.reset-btn {
+      background: #4a6fa5;
+      box-shadow: 0 5px 0 #2c4a6e;
+    }
+
+    button.music-btn {
+      background: #bc6c25;
+      box-shadow: 0 5px 0 #8b4c1a;
+    }
+
+    .status {
+      text-align: center;
+      background: #e9e3d5;
+      border-radius: 40px;
+      padding: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #2c3e2f;
+      margin-top: 12px;
+    }
+
+    /* popup overlay (happy birthday message) */
+    .popup-message {
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      color: gold;
+      font-size: 2rem;
+      font-weight: bold;
+      padding: 1.2rem 2rem;
+      border-radius: 60px;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.2s ease;
+      text-align: center;
+      white-space: nowrap;
+      letter-spacing: 1px;
+      border: 1px solid #ffd966;
+      font-family: monospace;
+    }
+
+    .popup-message.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* responsive */
+    @media (max-width: 550px) {
+      .birthday-card {
+        padding: 1.2rem;
+      }
+      .candles-container {
+        gap: 12px;
+      }
+      .candle-body {
+        width: 24px;
+        height: 60px;
+      }
+      .flame {
+        width: 18px;
+        height: 28px;
+      }
+      .cake-base {
+        width: 210px;
+      }
+      .cake-middle {
+        width: 180px;
+      }
+      .cake-top {
+        width: 150px;
+      }
+      .popup-message {
+        font-size: 1.3rem;
+        white-space: nowrap;
+        padding: 0.8rem 1.2rem;
+      }
+      button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .personalization {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .popup-message {
+        font-size: 1.1rem;
+        white-space: nowrap;
+      }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.7rem;
+      margin-top: 1rem;
+      color: #936e48;
+    }
+  </style>
+</head>
+<body>
+
+<div class="birthday-card">
+  <h1>🎂 BLOW THE CANDLES 🕯️</h1>
+  <div class="sub">✨ Make a wish & blow into your microphone ✨</div>
+
+  <!-- Personalization & make-a-wish hint -->
+  <div class="personalization">
+    <div class="name-input">
+      <label>🎈 Name:</label>
+      <input type="text" id="birthdayName" placeholder="Your name" value="Friend" maxlength="20">
+    </div>
+    <div class="wish-badge">
+      💫 "Make a wish" before you blow!
+    </div>
+  </div>
+
+  <!-- Birthday Cake with Candles -->
+  <div class="cake-stage">
+    <div class="cake">
+      <div class="candles-container" id="candlesContainer">
+        <!-- 6 candles dynamically generated in JS but we'll create static for clarity,
+             but will generate with JS for easy modification -->
+      </div>
+      <div class="cake-top"></div>
+      <div class="cake-middle"></div>
+      <div class="cake-base"></div>
+    </div>
+  </div>
+
+  <!-- Control panel -->
+  <div class="actions">
+    <button id="startMicBtn" class="mic-btn">🎤 Start Microphone & Listen</button>
+    <button id="resetBtn" class="reset-btn">🔄 Reset / Relight Candles</button>
+    <button id="playMusicBtn" class="music-btn">🎵 Play Birthday Melody</button>
+  </div>
+
+  <div id="statusMsg" class="status" role="status" aria-live="polite">
+    ⚡ Click "Start Microphone" and allow permission, then blow into your mic!
+  </div>
+  <footer>💨 Blow strongly – the louder the wind, the quicker candles go out!</footer>
+</div>
+
+<!-- Global popup overlay -->
+<div id="birthdayPopup" class="popup-message">🎉 Happy Birthday <span id="popupName">Friend</span>! 🎂</div>
+
+<script>
+  // ------------------------- DOM Elements -------------------------
+  const candlesContainer = document.getElementById('candlesContainer');
+  const startMicBtn = document.getElementById('startMicBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const playMusicBtn = document.getElementById('playMusicBtn');
+  const statusDiv = document.getElementById('statusMsg');
+  const birthdayPopup = document.getElementById('birthdayPopup');
+  const popupNameSpan = document.getElementById('popupName');
+  const nameInput = document.getElementById('birthdayName');
+
+  // ------------------------- State Variables -------------------------
+  let mediaStream = null;            // active microphone stream
+  let audioContext = null;           // Web Audio context
+  let sourceNode = null;             // MediaStream source node
+  let analyserNode = null;           // Analyser for volume analysis
+  let animationFrameId = null;       // requestAnimationFrame ID for monitoring
+  let isMicActive = false;           // whether mic stream & analyser ready
+  let isBlown = false;               // whether candles are already blown out (prevent multiple blows)
+  let currentFlames = [];            // array of flame DOM elements
+  
+  // detection parameters
+  const BLOW_THRESHOLD = 18;         // volume threshold (0-100 scale, adjust for sensitivity)
+  const MIN_BLOW_DURATION = 2;       // consecutive frames above threshold to confirm blow (avoid glitches)
+  let blowFramesCounter = 0;
+  
+  // ------------------------- Helper: Create Cake Candles (dynamic but stable) -------------------------
+  function createCandles(count = 6) {
+    candlesContainer.innerHTML = '';
+    const flamesArray = [];
+    for (let i = 0; i < count; i++) {
+      const candleDiv = document.createElement('div');
+      candleDiv.className = 'candle';
+      const flameDiv = document.createElement('div');
+      flameDiv.className = 'flame';
+      const bodyDiv = document.createElement('div');
+      bodyDiv.className = 'candle-body';
+      candleDiv.appendChild(flameDiv);
+      candleDiv.appendChild(bodyDiv);
+      candlesContainer.appendChild(candleDiv);
+      flamesArray.push(flameDiv);
+    }
+    return flamesArray;
+  }
+
+  // Reset / Relight all candles (remove extinguished class)
+  function relightCandles() {
+    if (!currentFlames.length) return;
+    currentFlames.forEach(flame => {
+      flame.classList.remove('extinguished');
+    });
+    // reset blow flag to allow new blow detection
+    isBlown = false;
+    blowFramesCounter = 0;   // reset blow detection counter
+    // optional: update status
+    if (isMicActive) {
+      statusDiv.innerHTML = "🎙️ Microphone active — listening for a blow! 💨 Make a wish and blow!";
+    } else {
+      statusDiv.innerHTML = "✨ Candles are lit! Press 'Start Microphone' to enable blow detection. ✨";
+    }
+    // hide any leftover popup if shown
+    birthdayPopup.classList.remove('show');
+  }
+
+  // Extinguish all candles (flame off animation)
+  function extinguishCandles() {
+    if (isBlown) return; // already extinguished
+    if (!currentFlames.length) return;
+    currentFlames.forEach(flame => {
+      flame.classList.add('extinguished');
+    });
+    isBlown = true;
+    
+    // 🎉 Trigger confetti celebration
+    canvasConfetti({
+      particleCount: 180,
+      spread: 85,
+      origin: { y: 0.6 },
+      startVelocity: 18,
+      colors: ['#ffd966', '#ffb347', '#ff6b6b', '#2a9d8f', '#e76f51']
+    });
+    // extra burst
+    setTimeout(() => {
+      canvasConfetti({
+        particleCount: 60,
+        spread: 45,
+        origin: { y: 0.5, x: 0.3 },
+        startVelocity: 12
+      });
+      canvasConfetti({
+        particleCount: 60,
+        spread: 45,
+        origin: { y: 0.5, x: 0.7 },
+        startVelocity: 12
+      });
+    }, 120);
+    
+    // Show personalized Happy Birthday popup
+    let userName = nameInput.value.trim();
+    if (userName === "") userName = "Friend";
+    popupNameSpan.textContent = userName;
+    birthdayPopup.classList.add('show');
+    // auto hide after 3.5 seconds
+    setTimeout(() => {
+      birthdayPopup.classList.remove('show');
+    }, 3500);
+    
+    // update status
+    statusDiv.innerHTML = `🎂🎉 Happy Birthday ${userName}! Candles blown out! Click "Reset" to relight. 🎉🎂`;
+  }
+  
+  // ------------------------- Microphone Volume Analysis (blow detection logic) -------------------------
+  function startVolumeMonitoring() {
+    if (!analyserNode || !isMicActive) return;
+    // we'll monitor using requestAnimationFrame
+    const timeDomainData = new Uint8Array(analyserNode.fftSize);
+    
+    function monitorVolume() {
+      if (!isMicActive || !analyserNode) {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        return;
+      }
+      analyserNode.getByteTimeDomainData(timeDomainData);
+      let sumSquares = 0;
+      for (let i = 0; i < timeDomainData.length; i++) {
+        const normalized = (timeDomainData[i] - 128) / 128;
+        sumSquares += normalized * normalized;
+      }
+      const rms = Math.sqrt(sumSquares / timeDomainData.length);
+      const avgVolume = rms * 100;
+      
+      // blow detection only if candles are still lit (isBlown === false)
+      if (!isBlown && isMicActive) {
+        if (avgVolume > BLOW_THRESHOLD) {
+          blowFramesCounter++;
+          // If volume stays high for MIN_BLOW_DURATION frames -> blow detected!
+          if (blowFramesCounter >= MIN_BLOW_DURATION) {
+            // Trigger blow-out event
+            if (!isBlown) {
+              extinguishCandles();
+              // optionally reset counter
+              blowFramesCounter = 0;
+            }
+          }
+        } else {
+          // reset counter if volume drops below threshold
+          blowFramesCounter = Math.max(0, blowFramesCounter - 1);
+        }
+        
+        // optional visual feedback: show volume in status for fun (not mandatory but helpful)
+        if (avgVolume > 40) {
+          let intensity = "💨 ";
+          if (avgVolume > 85) intensity = "🌬️💨💨 STRONG BLOW!";
+          else if (avgVolume > 65) intensity = "🌬️💨 Good blow!";
+          else if (avgVolume > 45) intensity = "🌬️ gentle blow...";
+          if (!isBlown && avgVolume > 50) {
+            statusDiv.innerHTML = `🎤 Listening... Volume: ${Math.floor(avgVolume)} ${intensity} Keep blowing!`;
+          } else if (!isBlown) {
+            statusDiv.innerHTML = `🎙️ Microphone active — blow into mic! (Volume: ${Math.floor(avgVolume)})`;
+          }
+        } else if (!isBlown) {
+          statusDiv.innerHTML = `🎙️ Microphone active — blow into mic! (Volume low)`;
+        }
+      } else if (isBlown) {
+        // already blown, just keep status
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        return;
+      }
+      
+      // continue monitoring if mic active and not blown (or still monitoring but after blow we stop)
+      if (isMicActive && !isBlown) {
+        animationFrameId = requestAnimationFrame(monitorVolume);
+      } else if (isMicActive && isBlown) {
+        // stop monitoring because candles are out (no need to detect blow until reset)
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      } else {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    }
+    
+    // start monitoring loop
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = requestAnimationFrame(monitorVolume);
+  }
+  
+  // ------------------------- Microphone Initialization (ask permission, setup audio nodes) -------------------------
+  async function initMicrophone() {
+    // clean previous stream if exists
+    if (mediaStream) {
+      stopMicrophoneTracks();
+    }
+    if (audioContext && audioContext.state !== 'closed') {
+      await audioContext.close();
+      audioContext = null;
+    }
+    
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      mediaStream = stream;
+      
+      // create AudioContext (suspend initially, but will resume after start)
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      sourceNode = audioContext.createMediaStreamSource(stream);
+      analyserNode = audioContext.createAnalyser();
+      analyserNode.fftSize = 2048;
+      analyserNode.smoothingTimeConstant = 0.3;
+      
+      sourceNode.connect(analyserNode);
+      
+      // resume audio context (needed for Chrome/Safari)
+      if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+      
+      isMicActive = true;
+      isBlown = false;          // reset blown state when starting fresh
+      blowFramesCounter = 0;
+      // make sure candles are lit (in case previously blown, relight them visually)
+      relightCandles();         // ensures flames visible and resets isBlown flag
+      
+      statusDiv.innerHTML = "🎤 Microphone ready! Now blow into the mic to extinguish candles! 🎂💨";
+      
+      // start monitoring for blow
+      startVolumeMonitoring();
+      
+      // disable start button temporarily? not needed, but we can just keep it functional but avoid duplicate streams
+      startMicBtn.disabled = false;
+      startMicBtn.textContent = "🎤 Mic Active ✅";
+      startMicBtn.style.opacity = "0.8";
+    } catch (err) {
+      console.error("Microphone error:", err);
+      statusDiv.innerHTML = "❌ Could not access microphone. Please allow permission and try again.";
+      isMicActive = false;
+      startMicBtn.textContent = "🎤 Retry Microphone";
+    }
+  }
+  
+  function stopMicrophoneTracks() {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach(track => {
+        track.stop();
+      });
+      mediaStream = null;
+    }
+    if (sourceNode) {
+      try {
+        sourceNode.disconnect();
+      } catch(e) {}
+      sourceNode = null;
+    }
+    if (analyserNode) {
+      try {
+        analyserNode.disconnect();
+      } catch(e) {}
+      analyserNode = null;
+    }
+    if (audioContext) {
+      audioContext.close().catch(e=>console.warn);
+      audioContext = null;
+    }
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+    isMicActive = false;
+    isBlown = false;
+  }
+  
+  // Reset function: relight candles and re-enable blow detection, but keep mic active if it was active
+  function resetCakeAndDetection() {
+    // Relight candles visually & reset internal blown flag
+    relightCandles();
+    // If microphone is active, ensure monitoring loop is restarted
+    if (isMicActive && analyserNode && mediaStream && audioContext) {
+      // ensure we clear any existing monitoring and start fresh
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      blowFramesCounter = 0;
+      // start monitoring again (since isBlown = false)
+      startVolumeMonitoring();
+      statusDiv.innerHTML = "🎙️ Microphone active — Candles relit! Make a wish & blow! 💨";
+    } else if (!isMicActive) {
+      statusDiv.innerHTML = "🕯️ Candles are lit again! Press 'Start Microphone' to enable blow detection.";
+    } else {
+      statusDiv.innerHTML = "✨ Candles relit! Microphone is active, blow again! ✨";
+    }
+    // hide any popup if visible
+    birthdayPopup.classList.remove('show');
+  }
+  
+  // ------------------------- Birthday Melody using Web Audio (Nice-to-have feature) -------------------------
+  let musicContext = null;
+  let isPlayingMelody = false;
+  
+  async function playHappyBirthdayMelody() {
+    if (isPlayingMelody) return;
+    // create separate audio context for music (to not interfere with mic)
+    let melodyCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (melodyCtx.state === 'suspended') {
+      await melodyCtx.resume();
+    }
+    isPlayingMelody = true;
+    const now = melodyCtx.currentTime;
+    // Happy Birthday notes (simplified) frequencies (Hz)
+    // C4, C4, D4, C4, F4, E4, C4, C4, D4, C4, G4, F4, C4, C4, C5, A4, F4, E4, D4, Bb4, Bb4, A4, F4, G4, F4
+    const notes = [
+      261.63, 261.63, 293.66, 261.63, 349.23, 329.63,  // Happy Birthday to You
+      261.63, 261.63, 293.66, 261.63, 392.00, 349.23,  // Happy Birthday to You
+      261.63, 261.63, 523.25, 440.00, 349.23, 329.63, 293.66, // Happy Birthday Dear [Name]
+      466.16, 466.16, 440.00, 349.23, 392.00, 349.23   // Happy Birthday to You
+    ];
+    const durations = [0.5, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1];
+    let time = now;
+    for (let i = 0; i < notes.length; i++) {
+      const osc = melodyCtx.createOscillator();
+      const gain = melodyCtx.createGain();
+      osc.connect(gain);
+      gain.connect(melodyCtx.destination);
+      osc.frequency.value = notes[i];
+      gain.gain.setValueAtTime(0.25, time);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + durations[i]);
+      osc.start(time);
+      osc.stop(time + durations[i]);
+      time += durations[i];
+    }
+    // after last note, close context after delay to free resources
+    setTimeout(() => {
+      melodyCtx.close().catch(e=>{});
+      isPlayingMelody = false;
+    }, (durations.reduce((a,b)=>a+b,0) + 0.5) * 1000);
+  }
+  
+  // ------------------------- Event Listeners & Initialization -------------------------
+  startMicBtn.addEventListener('click', () => {
+    if (isMicActive) {
+      statusDiv.innerHTML = "🎤 Microphone already active. If you face issues, refresh page.";
+      return;
+    }
+    initMicrophone().catch(e => {
+      statusDiv.innerHTML = "Microphone error: " + e.message;
+    });
+  });
+  
+  resetBtn.addEventListener('click', () => {
+    resetCakeAndDetection();
+  });
+  
+  playMusicBtn.addEventListener('click', () => {
+    playHappyBirthdayMelody().catch(e => console.warn("Music playback error:", e));
+  });
+  
+  // On name input change, we don't need special but later popup uses current name.
+  // Also initial creation of candles
+  currentFlames = createCandles(6);   // 6 beautiful candles
+  relightCandles();   // ensure flames lit at start
+  
+  // tiny guard: if user clicks reset before mic, no issue
+  // also ensure popup name uses current input value when shown
+  const originalPopupShow = birthdayPopup.classList.add;
+  // dynamic name from input when showing
+  function patchPopupName() {
+    const name = nameInput.value.trim() || "Friend";
+    popupNameSpan.textContent = name;
+  }
+  // Overwrite blow popup naming: we already call patch in extinguishCandles, but extra sync.
+  const origExtinguish = extinguishCandles;
+  window.extinguishCandles = extinguishCandles;
+  // final sync: when extinguish, update popup name before showing
+  // extend extinguish logic to fetch latest name
+  const superExtinguish = extinguishCandles;
+  extinguishCandles = function() {
+    let userName = nameInput.value.trim();
+    if (userName === "") userName = "Friend";
+    popupNameSpan.textContent = userName;
+    superExtinguish.call(this);
+  }.bind(this);
+  // replace global function references
+  window.extinguishCandles = extinguishCandles;
+  // reassign for blow trigger
+  const blowOutFunc = extinguishCandles;
+  // also ensure relightCandles updates internal isBlown and restarts monitoring if mic active
+  const originalRelight = relightCandles;
+  window.relightCandles = relightCandles;
+  // final touch: restart monitoring on reset if mic active
+  // good already in resetCakeAndDetection.
+  
+  // small adjust: if mic not active, status shows friendly message
+  if (!isMicActive) {
+    statusDiv.innerHTML = "🎙️ Click 'Start Microphone' to enable the magic blow effect! 🕯️";
+  }
+</script>
+</body>
+</html>
