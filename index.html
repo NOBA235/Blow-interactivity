@@ -302,6 +302,8 @@
       border-radius: 8px;
       opacity: 0;
       transform-origin: bottom center;
+      --angle: 0deg;
+      transform: translate(-50%, -50%) rotate(var(--angle));
       animation: cracker-burst 1s ease-out forwards;
     }
 
@@ -313,15 +315,15 @@
     @keyframes cracker-burst {
       0% {
         opacity: 1;
-        transform: translate(-50%, -50%) scaleY(0.4) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(var(--angle)) scaleY(0.4);
       }
       35% {
         opacity: 1;
-        transform: translate(-50%, -300%) scaleY(1.1) rotate(20deg);
+        transform: translate(-50%, -300%) rotate(var(--angle)) scaleY(1.1);
       }
       100% {
         opacity: 0;
-        transform: translate(-50%, -500%) scaleY(1) rotate(40deg);
+        transform: translate(-50%, -500%) rotate(var(--angle)) scaleY(1);
       }
     }
 
@@ -573,6 +575,8 @@
     
     // update status
     statusDiv.innerHTML = `🎂🎉 Happy Birthday ${userName}! Candles blown out! Click "Reset" to relight. 🎉🎂`;
+    setBlowPromptVisible(false);
+    launchCrackerBurst();
   }
   
   // ------------------------- Microphone Volume Analysis (blow detection logic) -------------------------
@@ -835,7 +839,7 @@
       const spark = document.createElement('span');
       const angle = (i / 12) * 360;
       spark.style.background = colors[i % colors.length];
-      spark.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+      spark.style.setProperty('--angle', `${angle}deg`);
       spark.style.animationDelay = `${i * 0.03}s`;
       crackerBurst.appendChild(spark);
     }
@@ -880,7 +884,7 @@
 
   // tiny guard: if user clicks reset before mic, no issue
   if (!isMicActive) {
-    statusDiv.innerHTML = "🎙️ Click 'Start Microphone' to enable the magic blow effect! 🕯️";
+    statusDiv.innerHTML = "🎙️ Tap the button to enable the magic blow effect! 🕯️";
   }
 
   // cleanup microphone tracks when the page unloads
