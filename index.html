@@ -24,14 +24,13 @@
       overflow-y: auto;
     }
 
-    .star {
-      position: fixed;
-      font-size: 18px;
-      pointer-events: none;
-      animation: floatStar 1.8s ease-out forwards;
-      z-index: 1500;
-    }
-
+  .star {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1500;
+  animation: floatStar 1.5s ease-out forwards;
+  transform: translate(-50%, -50%);
+}
     @keyframes floatStar {
       0% {
         opacity: 1;
@@ -518,23 +517,42 @@
     const NOTE_DUR = [0.45, 0.45, 0.45, 0.45, 0.45, 1, 0.45, 0.45, 0.45, 0.45, 0.45, 1, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 1.2];
 
     // 🌟 STAR BURST FUNCTION
-    function launchStars() {
-      const starCount = 25;
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.textContent = '✨';
-        const x = (Math.random() - 0.5) * 400 + 'px';
-        const y = (Math.random() - 0.5) * 400 + 'px';
-        star.style.setProperty('--x', x);
-        star.style.setProperty('--y', y);
-        star.style.left = '50%';
-        star.style.top = '50%';
-        document.body.appendChild(star);
-        setTimeout(() => star.remove(), 1800);
-      }
-    }
+function launchStars() {
+  const starCount = 30;
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
+  const starEmojis = ['✨', '⭐', '🌟', '💫'];
+
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+
+    star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+
+    // 🔥 ALL stars start from center
+    star.style.left = centerX + 'px';
+    star.style.top = centerY + 'px';
+
+    // 🔥 burst direction (like explosion)
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 150 + Math.random() * 250;
+
+    const x = Math.cos(angle) * distance + 'px';
+    const y = Math.sin(angle) * distance + 'px';
+
+    star.style.setProperty('--x', x);
+    star.style.setProperty('--y', y);
+
+    star.style.fontSize = (16 + Math.random() * 18) + 'px';
+
+    document.body.appendChild(star);
+
+    setTimeout(() => {
+      star.remove();
+    }, 1500);
+  }
+}
     // 🎵 PLAY REAL SONG (audio element)
     function playBirthdaySong() {
       if (birthdayAudio) {
