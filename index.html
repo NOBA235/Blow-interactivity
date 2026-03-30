@@ -14,64 +14,62 @@
     }
 
     body {
-      height: 100vh;
       min-height: 100vh;
       background: linear-gradient(145deg, #0b2b3b 0%, #1a3f2c 100%);
       font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Montserrat', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0.8rem;
-      overflow: hidden;
+      padding: 0.5rem;
+      overflow-y: auto;
     }
-    .star {
-  position: fixed;
-  font-size: 18px;
-  pointer-events: none;
-  animation: floatStar 1.8s ease-out forwards;
-  z-index: 1500;
-}
 
-@keyframes floatStar {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(0.6);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(var(--x), var(--y)) scale(1.5);
-  }
-}
+    .star {
+      position: fixed;
+      font-size: 18px;
+      pointer-events: none;
+      animation: floatStar 1.8s ease-out forwards;
+      z-index: 1500;
+    }
+
+    @keyframes floatStar {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.6);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(1.5);
+      }
+    }
 
     .birthday-card {
-      max-width: 600px;
+      max-width: 550px;
       width: 100%;
-      max-height: calc(100vh - 1.6rem);
-      margin: 0 auto;
       background: rgba(255, 250, 235, 0.97);
-      border-radius: 2.5rem;
+      border-radius: 2rem;
       box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255,255,255,0.8);
       overflow: hidden;
-      padding: 1rem 1rem 1.4rem;
+      padding: 0.8rem 1rem 1rem;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
     }
 
     h1 {
       text-align: center;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: #e85d04;
       text-shadow: 2px 2px 0 #ffd966;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.1rem;
+      line-height: 1.2;
     }
 
     .sub {
       text-align: center;
       color: #8b5a2b;
       font-weight: 600;
-      margin-bottom: 1rem;
-      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.75rem;
     }
 
     .personalization {
@@ -79,20 +77,20 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
       background: #fff2e0;
-      padding: 0.7rem 1rem;
+      padding: 0.5rem 0.8rem;
       border-radius: 50px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.8rem;
     }
 
     .name-input {
       flex: 2;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: white;
-      padding: 0 0.8rem;
+      padding: 0 0.6rem;
       border-radius: 40px;
       box-shadow: inset 0 1px 3px #0001, 0 1px 2px white;
     }
@@ -100,12 +98,13 @@
     .name-input label {
       font-weight: 700;
       color: #bc6c25;
+      font-size: 0.8rem;
     }
 
     .name-input input {
       border: none;
-      padding: 10px 0;
-      font-size: 1rem;
+      padding: 8px 0;
+      font-size: 0.9rem;
       background: transparent;
       outline: none;
       font-family: inherit;
@@ -115,26 +114,16 @@
       font-weight: 500;
     }
 
-    .name-input {
-      min-width: 0;
-    }
-
-    .wish-badge {
-      flex: 1 1 auto;
-      justify-content: center;
-      min-width: 170px;
-    }
-
     .wish-badge {
       background: #f48c06;
       border-radius: 40px;
-      padding: 8px 16px;
+      padding: 6px 12px;
       color: white;
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       white-space: nowrap;
     }
 
@@ -142,7 +131,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 0.8rem 0 1rem;
+      margin: 0.4rem 0 0.6rem;
     }
 
     .cake {
@@ -150,66 +139,65 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      filter: drop-shadow(0 12px 14px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.25));
     }
 
     .cake-base {
-      width: 260px;
-      height: 100px;
-      border-radius: 20px 20px 40px 40px;
+      width: 220px;
+      height: 80px;
+      border-radius: 18px 18px 35px 35px;
       background: linear-gradient(145deg, #f7da9e, #e9bc7a);
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1), 0 8px 12px rgba(0,0,0,0.2);
-      border-bottom: 5px solid #c28a4b;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1), 0 6px 10px rgba(0,0,0,0.2);
+      border-bottom: 4px solid #c28a4b;
     }
 
     .cake-middle {
-      width: 220px;
-      height: 70px;
-      border-radius: 20px 20px 30px 30px;
-      margin-bottom: -15px;
+      width: 190px;
+      height: 55px;
+      border-radius: 18px 18px 25px 25px;
+      margin-bottom: -12px;
       background: linear-gradient(135deg, #ffe0a3, #f2c77a);
     }
 
     .cake-top {
-      width: 180px;
-      height: 45px;
-      border-radius: 30px 30px 20px 20px;
-      margin-bottom: 5px;
+      width: 160px;
+      height: 38px;
+      border-radius: 25px 25px 18px 18px;
+      margin-bottom: 4px;
       background: radial-gradient(circle at 30% 30%, #fff0bc, #f7c46e);
     }
 
     .candles-container {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      margin-bottom: -18px;
+      gap: 14px;
+      margin-bottom: -15px;
       z-index: 10;
       position: relative;
-      top: 12px;
+      top: 10px;
     }
 
     .candle {
       display: flex;
       flex-direction: column;
       align-items: center;
-      filter: drop-shadow(0 5px 6px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 4px 5px rgba(0,0,0,0.25));
     }
 
     .candle-body {
       background: linear-gradient(145deg, #ff7777, #e34234);
-      width: 32px;
-      height: 78px;
-      border-radius: 18px 18px 8px 8px;
+      width: 26px;
+      height: 62px;
+      border-radius: 15px 15px 6px 6px;
     }
 
-    /* 🔥 SUPER BRIGHT FLAME - VERY VISIBLE */
     .flame {
-      width: 28px;
-      height: 42px;
+      width: 24px;
+      height: 36px;
       background: radial-gradient(circle at 35% 30%, #ffdd77, #ffaa33, #ff6600);
       border-radius: 50% 50% 40% 40%;
-      filter: drop-shadow(0 0 12px #ffaa44) brightness(1.2);
-      margin-bottom: -12px;
+      filter: drop-shadow(0 0 10px #ffaa44) brightness(1.2);
+      margin-bottom: -10px;
       transform-origin: bottom;
       transition: all 0.2s cubic-bezier(0.3, 1.2, 0.5, 1);
       cursor: pointer;
@@ -219,17 +207,17 @@
     @keyframes flickerGlow {
       0% { 
         transform: scale(1) translateY(0px); 
-        filter: drop-shadow(0 0 8px #ffaa44) brightness(1);
+        filter: drop-shadow(0 0 6px #ffaa44) brightness(1);
       }
       100% { 
-        transform: scale(1.08) translateY(-3px); 
-        filter: drop-shadow(0 0 20px #ff8833) brightness(1.3);
+        transform: scale(1.08) translateY(-2px); 
+        filter: drop-shadow(0 0 16px #ff8833) brightness(1.3);
       }
     }
 
     .flame.extinguished {
       opacity: 0;
-      transform: scale(0.2) translateY(12px);
+      transform: scale(0.2) translateY(10px);
       filter: none;
       animation: none;
       transition: 0.25s ease-out;
@@ -239,8 +227,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.8rem;
-      margin: 0.8rem 0 1rem;
+      gap: 0.6rem;
+      margin: 0.5rem 0 0.6rem;
     }
 
     button {
@@ -248,18 +236,18 @@
       border: none;
       font-family: inherit;
       font-weight: 700;
-      font-size: 1rem;
-      padding: 14px 20px;
+      font-size: 0.85rem;
+      padding: 10px 16px;
       border-radius: 60px;
-      min-width: 155px;
+      min-width: 130px;
       color: white;
       cursor: pointer;
       transition: transform 0.08s linear, background 0.2s;
-      box-shadow: 0 5px 0 #1e6b5e;
+      box-shadow: 0 4px 0 #1e6b5e;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
       touch-action: manipulation;
     }
 
@@ -270,34 +258,43 @@
 
     button.mic-btn {
       background: #e76f51;
-      box-shadow: 0 5px 0 #b6451e;
+      box-shadow: 0 4px 0 #b6451e;
     }
 
     button.reset-btn {
       background: #4a6fa5;
-      box-shadow: 0 5px 0 #2c4a6e;
+      box-shadow: 0 4px 0 #2c4a6e;
     }
 
     button.music-btn {
       background: #bc6c25;
-      box-shadow: 0 5px 0 #8b4c1a;
-      animation: pulseMusic 2s infinite;
+      box-shadow: 0 4px 0 #8b4c1a;
     }
 
-    @keyframes pulseMusic {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.85; transform: scale(0.98); }
+    .music-control {
+      display: flex;
+      justify-content: center;
+      margin: 0.4rem 0;
+    }
+
+    .music-toggle {
+      background: #8b5a2b;
+      box-shadow: 0 4px 0 #5a3a1a;
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      min-width: 180px;
     }
 
     .status {
       text-align: center;
       background: #e9e3d5;
       border-radius: 50px;
-      padding: 10px 10px;
-      font-size: 0.82rem;
+      padding: 8px 8px;
+      font-size: 0.75rem;
       font-weight: 600;
       color: #2c3e2f;
-      margin-top: 6px;
+      margin-top: 0.5rem;
+      line-height: 1.3;
     }
 
     .blow-prompt {
@@ -305,11 +302,11 @@
       backdrop-filter: blur(12px);
       color: #ffec9f;
       border-radius: 999px;
-      padding: 0.75rem 1rem;
-      margin-top: 0.8rem;
+      padding: 0.6rem 0.8rem;
+      margin-top: 0.6rem;
       text-align: center;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       border: 1px solid #ffd966;
     }
 
@@ -329,14 +326,14 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 14px;
-      height: 44px;
-      border-radius: 30px;
+      width: 12px;
+      height: 38px;
+      border-radius: 25px;
       opacity: 0;
       transform-origin: bottom center;
       --angle: 0deg;
       transform: translate(-50%, -50%) rotate(var(--angle));
-      animation: burstFly 1s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+      animation: burstFly 0.9s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
     }
 
     @keyframes burstFly {
@@ -346,11 +343,11 @@
       }
       40% {
         opacity: 1;
-        transform: translate(-50%, -220%) rotate(var(--angle)) scaleY(1);
+        transform: translate(-50%, -200%) rotate(var(--angle)) scaleY(1);
       }
       100% {
         opacity: 0;
-        transform: translate(-50%, -550%) rotate(var(--angle)) scaleY(0.8);
+        transform: translate(-50%, -500%) rotate(var(--angle)) scaleY(0.8);
       }
     }
 
@@ -362,10 +359,10 @@
       background: linear-gradient(135deg, #2c2b2b, #111);
       backdrop-filter: blur(18px);
       color: #ffd966;
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       font-weight: 800;
-      padding: 1rem 2rem;
-      border-radius: 80px;
+      padding: 0.8rem 1.5rem;
+      border-radius: 70px;
       box-shadow: 0 20px 35px rgba(0,0,0,0.4), 0 0 0 3px rgba(255,215,0,0.6);
       z-index: 1300;
       opacity: 0;
@@ -381,59 +378,49 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
-    .music-control {
-      display: flex;
-      justify-content: center;
-      margin-top: 8px;
-    }
-
-    .music-toggle {
-      background: #8b5a2b;
-      box-shadow: 0 3px 0 #5a3a1a;
-      padding: 6px 16px;
-      font-size: 0.75rem;
-      min-width: 180px;
-    }
-
     footer {
       text-align: center;
-      font-size: 0.7rem;
-      margin-top: 1rem;
+      font-size: 0.6rem;
+      margin-top: 0.6rem;
       color: #ab8a60;
     }
 
+    /* Ensure all buttons visible without scroll on most phones */
     @media (max-width: 550px) {
-      .birthday-card { max-height: calc(100vh - 1rem); }
-      .candles-container { gap: 10px; }
-      .candle-body { width: 24px; height: 64px; }
-      .flame { width: 22px; height: 34px; }
-      .cake-base { width: 190px; }
-      .cake-middle { width: 160px; }
-      .cake-top { width: 140px; }
-      .sub { font-size: 0.8rem; }
-      h1 { font-size: 1.6rem; }
-      .popup-message { font-size: 1.1rem; white-space: nowrap; padding: 0.65rem 1.2rem; }
-      button { padding: 10px 12px; min-width: 120px; font-size: 0.85rem; }
-      .actions { flex-direction: column; align-items: stretch; }
-      button { width: 100%; }
-      .music-control { width: 100%; }
-      .music-toggle { width: 100%; }
-      .wish-badge { justify-content: center; }
-      .personalization { padding: 0.6rem 0.8rem; }
-    }
-    @media (max-height: 700px) {
-      body { padding: 0.5rem; }
-      .birthday-card { max-height: calc(100vh - 1rem); padding: 0.8rem 0.9rem 1.1rem; }
-      .cake-stage { margin: 0.6rem 0 0.8rem; }
-      .actions { margin: 0.6rem 0 0.8rem; }
-      .music-control { margin-top: 6px; }
-      .status { margin-top: 6px; font-size: 0.8rem; }
-      .blow-prompt { margin-top: 0.6rem; font-size: 0.85rem; padding: 0.65rem 0.9rem; }
+      body {
+        padding: 0.3rem;
+        align-items: flex-start;
+        overflow-y: auto;
+      }
+      .birthday-card {
+        max-width: 100%;
+        padding: 0.6rem 0.8rem 0.8rem;
+      }
+      h1 { font-size: 1.4rem; }
+      .sub { font-size: 0.7rem; margin-bottom: 0.6rem; }
+      .personalization { padding: 0.4rem 0.6rem; margin-bottom: 0.6rem; }
+      .cake-stage { margin: 0.3rem 0 0.4rem; }
+      .candles-container { gap: 8px; }
+      .candle-body { width: 22px; height: 52px; }
+      .flame { width: 20px; height: 30px; }
+      .cake-base { width: 180px; height: 68px; }
+      .cake-middle { width: 155px; height: 48px; }
+      .cake-top { width: 130px; height: 32px; }
+      button { padding: 8px 12px; min-width: 110px; font-size: 0.75rem; }
+      .music-toggle { min-width: 150px; font-size: 0.75rem; }
+      .actions { gap: 0.5rem; margin: 0.4rem 0; }
+      .status { font-size: 0.7rem; padding: 6px 8px; margin-top: 0.4rem; }
+      .blow-prompt { font-size: 0.7rem; padding: 0.5rem 0.7rem; margin-top: 0.5rem; }
+      .popup-message { font-size: 1rem; padding: 0.6rem 1.2rem; white-space: nowrap; }
+      footer { font-size: 0.55rem; margin-top: 0.5rem; }
     }
 
-    @media (max-width: 450px) {
-      .personalization { flex-direction: column; align-items: stretch; }
-      .wish-badge { justify-content: center; }
+    @media (max-height: 700px) {
+      .birthday-card { padding: 0.5rem 0.8rem 0.7rem; }
+      .cake-stage { margin: 0.2rem 0 0.3rem; }
+      .actions { margin: 0.3rem 0; }
+      .status { margin-top: 0.3rem; }
+      .blow-prompt { margin-top: 0.4rem; }
     }
   </style>
 </head>
@@ -449,7 +436,7 @@
       <input type="text" id="birthdayName" placeholder="Your name" value="Mhademo" maxlength="20">
     </div>
     <div class="wish-badge">
-      💫 "Make a wish" before you blow!
+      💫 "Make a wish"
     </div>
   </div>
 
@@ -463,8 +450,8 @@
   </div>
 
   <div class="actions">
-    <button id="startMicBtn" class="mic-btn">🎤 Activate Mic & Blow!</button>
-    <button id="resetBtn" class="reset-btn">🔄 Relight Candles</button>
+    <button id="startMicBtn" class="mic-btn">🎤 Activate Mic</button>
+    <button id="resetBtn" class="reset-btn">🔄 Relight</button>
   </div>
 
   <div class="music-control">
@@ -472,16 +459,21 @@
   </div>
 
   <div id="statusMsg" class="status" role="status" aria-live="polite">
-    🔥 Tap "Activate Mic" and blow strongly! 🔥
+    🔥 Tap "Activate Mic" and blow strongly!
   </div>
   <div id="blowPrompt" class="blow-prompt">
-    💨 Keep blowing — the louder, the faster the candles go out!
+    💨 Keep blowing — the louder, the faster!
   </div>
-  <footer>🎵 Tap the music button to play Happy Birthday! 🎵 | Blow into mic for celebration</footer>
+  <footer>🎵 Tap music button for Happy Birthday | Blow into mic for celebration ✨</footer>
 </div>
 
 <div id="celebrationBurst" class="celebration-burst"></div>
 <div id="birthdayPopup" class="popup-message">🎉 Happy Birthday <span id="popupName">Friend</span>! 🎂🎈</div>
+
+<!-- Audio element for real birthday song -->
+<audio id="birthdaySong" preload="auto">
+  <source src="https://www.soundjay.com/misc/sounds/birthday-song-01.mp3" type="audio/mpeg">
+</audio>
 
 <script>
   (function() {
@@ -496,6 +488,7 @@
     const birthdayPopup = document.getElementById('birthdayPopup');
     const popupNameSpan = document.getElementById('popupName');
     const nameInput = document.getElementById('birthdayName');
+    const birthdayAudio = document.getElementById('birthdaySong');
 
     // State
     let mediaStream = null;
@@ -512,11 +505,10 @@
 
     // Music state
     let musicEnabled = false;
-    let currentMusicCtx = null;
     let isPlayingMelody = false;
     let musicInterval = null;
 
-    // Happy Birthday notes (bright and cheerful)
+    // Happy Birthday notes for Web Audio fallback
     const NOTE_FREQS = [
       261.63, 261.63, 293.66, 261.63, 349.23, 329.63,
       261.63, 261.63, 293.66, 261.63, 392.00, 349.23,
@@ -525,7 +517,78 @@
     ];
     const NOTE_DUR = [0.45, 0.45, 0.45, 0.45, 0.45, 1, 0.45, 0.45, 0.45, 0.45, 0.45, 1, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 1.2];
 
-    // Create candles with bright flames
+    // 🌟 STAR BURST FUNCTION
+    function launchStars() {
+      const starCount = 25;
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.textContent = '✨';
+        const x = (Math.random() - 0.5) * 400 + 'px';
+        const y = (Math.random() - 0.5) * 400 + 'px';
+        star.style.setProperty('--x', x);
+        star.style.setProperty('--y', y);
+        star.style.left = '50%';
+        star.style.top = '50%';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 1800);
+      }
+    }
+
+    // 🎵 PLAY REAL SONG (audio element)
+    function playBirthdaySong() {
+      if (birthdayAudio) {
+        birthdayAudio.currentTime = 0;
+        birthdayAudio.play().catch(err => {
+          console.log("Audio play failed, using Web Audio fallback", err);
+          playWebAudioMelody();
+        });
+      } else {
+        playWebAudioMelody();
+      }
+    }
+
+    // Web Audio fallback
+    async function playWebAudioMelody() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (ctx.state === 'suspended') await ctx.resume();
+        let currentTime = ctx.currentTime;
+        for (let i = 0; i < NOTE_FREQS.length; i++) {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.frequency.value = NOTE_FREQS[i];
+          osc.type = 'sine';
+          gain.gain.setValueAtTime(0.25, currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, currentTime + NOTE_DUR[i]);
+          osc.start(currentTime);
+          osc.stop(currentTime + NOTE_DUR[i]);
+          currentTime += NOTE_DUR[i] + 0.02;
+        }
+        const totalDuration = NOTE_DUR.reduce((a, b) => a + b, 0) + 0.8;
+        await new Promise(resolve => setTimeout(resolve, totalDuration * 1000));
+        await ctx.close();
+      } catch (err) {
+        console.error("Web Audio error:", err);
+      }
+    }
+
+    // 🔊 VOICE MESSAGE
+    function speakBirthday(name) {
+      try {
+        const msg = new SpeechSynthesisUtterance(`Happy Birthday ${name}`);
+        msg.pitch = 1.2;
+        msg.rate = 0.9;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(msg);
+      } catch (e) {
+        console.log("Speech not supported");
+      }
+    }
+
+    // Create candles
     function createCandles(count = 6) {
       candlesContainer.innerHTML = '';
       const flames = [];
@@ -566,7 +629,7 @@
       if (!celebrationBurst) return;
       celebrationBurst.innerHTML = '';
       const colorsList = ['#ffd966', '#ff8c42', '#f94144', '#90be6d', '#577590', '#f9c74f', '#f9844a', '#ee6c4d'];
-      const sparkCount = 26;
+      const sparkCount = 22;
       for (let i = 0; i < sparkCount; i++) {
         const stick = document.createElement('span');
         const angle = (i / sparkCount) * 360 + Math.random() * 15;
@@ -574,17 +637,17 @@
         stick.style.setProperty('--angle', `${angle}deg`);
         stick.style.left = `${50 + (Math.random() - 0.5) * 60}%`;
         stick.style.top = `${50 + (Math.random() - 0.5) * 50}%`;
-        stick.style.width = `${8 + Math.random() * 12}px`;
-        stick.style.height = `${28 + Math.random() * 28}px`;
+        stick.style.width = `${8 + Math.random() * 10}px`;
+        stick.style.height = `${26 + Math.random() * 24}px`;
         stick.style.animationDelay = `${Math.random() * 0.15}s`;
         celebrationBurst.appendChild(stick);
       }
       setTimeout(() => {
         if (celebrationBurst) celebrationBurst.innerHTML = '';
-      }, 1300);
+      }, 1200);
     }
 
-    // Extinguish candles with celebration
+    // EXTINGUISH ALL - COMPLETE CELEBRATION
     function extinguishCandlesAndCelebrate() {
       if (candlesBlown) return;
       if (!currentFlames.length) return;
@@ -594,18 +657,31 @@
       });
       candlesBlown = true;
       
-      // Confetti celebration
+      // 🎉 CONFETTI
       canvasConfetti({ particleCount: 200, spread: 100, origin: { y: 0.5 }, startVelocity: 20 });
       setTimeout(() => {
         canvasConfetti({ particleCount: 90, spread: 65, origin: { y: 0.6, x: 0.2 } });
         canvasConfetti({ particleCount: 90, spread: 65, origin: { y: 0.6, x: 0.8 } });
       }, 100);
       
+      // 🌟 STAR EFFECT
+      launchStars();
+      
+      // 🎇 BURST EFFECT
       launchRichBurst();
       
+      // 🎵 PLAY BIRTHDAY SONG
+      playBirthdaySong();
+      
+      // 👤 GET NAME
       let userName = nameInput.value.trim();
       if (userName === "") userName = "Friend";
       popupNameSpan.textContent = userName;
+      
+      // 🔊 SPEAK BIRTHDAY
+      speakBirthday(userName);
+      
+      // 🎉 POPUP
       birthdayPopup.classList.add('show');
       setTimeout(() => birthdayPopup.classList.remove('show'), 3800);
       
@@ -613,7 +689,7 @@
       blowPromptDiv.classList.add('hidden');
       
       setTimeout(() => {
-        canvasConfetti({ particleCount: 60, spread: 45, startVelocity: 12 });
+        canvasConfetti({ particleCount: 50, spread: 40, startVelocity: 12 });
       }, 300);
     }
 
@@ -641,7 +717,7 @@
         if (candlesBlown) relightCandles();
         else relightCandles();
         
-        statusDiv.innerHTML = "🎤 Microphone ready! 💨 Blow strongly into mic to extinguish candles!";
+        statusDiv.innerHTML = "🎤 Microphone ready! 💨 Blow strongly!";
         startMicBtn.textContent = "🎤 Mic Active ✅";
         
         startBlowMonitoring();
@@ -649,7 +725,7 @@
         console.error(err);
         statusDiv.innerHTML = "❌ Microphone access denied. Please allow permissions.";
         isMicActive = false;
-        startMicBtn.textContent = "🎤 Retry Microphone";
+        startMicBtn.textContent = "🎤 Retry Mic";
       }
     }
 
@@ -691,7 +767,7 @@
           if (volume > 40 && !candlesBlown) {
             statusDiv.innerHTML = `💨 Great blow! Volume: ${Math.floor(volume)} — Keep going! 🕯️`;
           } else if (!candlesBlown) {
-            statusDiv.innerHTML = `🎤 Blow into mic! (volume: ${Math.floor(volume)}) 💨`;
+            statusDiv.innerHTML = `🎤 Blow into mic! (${Math.floor(volume)}) 💨`;
           }
         }
         
@@ -723,59 +799,23 @@
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
         consecutiveBlowFrames = 0;
         startBlowMonitoring();
-        statusDiv.innerHTML = "🎙️ Candles relit! Blow again to celebrate! 💨";
+        statusDiv.innerHTML = "🎙️ Candles relit! Blow again! 💨";
       } else if (!isMicActive) {
-        statusDiv.innerHTML = "🕯️ Candles lit! Tap mic button to start blowing fun.";
+        statusDiv.innerHTML = "🕯️ Candles lit! Tap mic button to start.";
       }
       blowPromptDiv.classList.remove('hidden');
     }
 
-    // 🎵 IMPROVED MUSIC PLAYER - Works on mobile with user tap 🎵
+    // Music player
     async function playHappyBirthdayMelody() {
-      if (!musicEnabled) {
-        statusDiv.innerHTML = "🎵 Tap the music button first to enable birthday melody! 🎵";
-        return false;
-      }
-      
+      if (!musicEnabled) return false;
       if (isPlayingMelody) return false;
-      
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        if (ctx.state === 'suspended') {
-          await ctx.resume();
-        }
-        
-        isPlayingMelody = true;
-        let currentTime = ctx.currentTime;
-        
-        for (let i = 0; i < NOTE_FREQS.length; i++) {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.frequency.value = NOTE_FREQS[i];
-          osc.type = 'sine';
-          gain.gain.setValueAtTime(0.25, currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, currentTime + NOTE_DUR[i]);
-          osc.start(currentTime);
-          osc.stop(currentTime + NOTE_DUR[i]);
-          currentTime += NOTE_DUR[i] + 0.02;
-        }
-        
-        const totalDuration = NOTE_DUR.reduce((a, b) => a + b, 0) + 0.8;
-        await new Promise(resolve => setTimeout(resolve, totalDuration * 1000));
-        
-        isPlayingMelody = false;
-        await ctx.close();
-        return true;
-      } catch (err) {
-        console.error("Music error:", err);
-        isPlayingMelody = false;
-        return false;
-      }
+      isPlayingMelody = true;
+      await playWebAudioMelody();
+      isPlayingMelody = false;
+      return true;
     }
 
-    // Start continuous music loop
     function startContinuousMusic() {
       if (musicInterval) clearInterval(musicInterval);
       musicInterval = setInterval(async () => {
@@ -792,23 +832,18 @@
       }
     }
 
-    // Toggle music on/off with button
     async function enableMusic() {
       if (musicEnabled) {
-        // Disable music
         musicEnabled = false;
         stopContinuousMusic();
         playMusicBtn.textContent = "🎵 Play Birthday Music 🎵";
         playMusicBtn.style.animation = "none";
-        statusDiv.innerHTML = "🎵 Music disabled. Tap the button to enable again! 🎵";
+        statusDiv.innerHTML = "🎵 Music disabled. Tap button to enable! 🎵";
       } else {
-        // Enable music
         musicEnabled = true;
         playMusicBtn.textContent = "🔊 Music ON 🎵";
         playMusicBtn.style.animation = "pulseMusic 2s infinite";
-        statusDiv.innerHTML = "🎵 Happy Birthday melody is playing! Enjoy! 🎵";
-        
-        // Play immediately
+        statusDiv.innerHTML = "🎵 Happy Birthday melody playing! 🎵";
         await playHappyBirthdayMelody();
         startContinuousMusic();
       }
@@ -836,87 +871,13 @@
     currentFlames = createCandles(6);
     relightCandles();
     
-    // Cleanup on page unload
+    // Cleanup
     window.addEventListener('beforeunload', () => {
       if (mediaStream) stopMicrophoneTracks();
       if (musicInterval) clearInterval(musicInterval);
+      window.speechSynthesis.cancel();
     });
   })();
-  // 🌟 STAR BURST
-function launchStars() {
-  const starCount = 25;
-
-  for (let i = 0; i < starCount; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.textContent = '✨';
-
-    const x = (Math.random() - 0.5) * 400 + 'px';
-    const y = (Math.random() - 0.5) * 400 + 'px';
-
-    star.style.setProperty('--x', x);
-    star.style.setProperty('--y', y);
-
-    star.style.left = '50%';
-    star.style.top = '50%';
-
-    document.body.appendChild(star);
-
-    setTimeout(() => star.remove(), 1800);
-  }
-}
-
-// 🎵 PLAY REAL SONG
-function playBirthdaySong() {
-  const audio = document.getElementById('birthdaySong');
-  if (!audio) return;
-
-  audio.currentTime = 0;
-  audio.play().catch(() => {});
-}
-
-// 🔊 VOICE MESSAGE
-function speakBirthday(name) {
-  const msg = new SpeechSynthesisUtterance(`Happy Birthday ${name}`);
-  msg.pitch = 1.2;
-  msg.rate = 0.9;
-  speechSynthesis.speak(msg);
-}
-function extinguishCandlesAndCelebrate() {
-  if (candlesBlown) return;
-
-  currentFlames.forEach(flame => {
-    flame.classList.add('extinguished');
-  });
-
-  candlesBlown = true;
-
-  // 🎉 CONFETTI
-  canvasConfetti({ particleCount: 200, spread: 100 });
-
-  // 🌟 NEW STAR EFFECT
-  launchStars();
-
-  // 🎇 existing burst
-  launchRichBurst();
-
-  // 🎵 PLAY SONG
-  playBirthdaySong();
-
-  // 👤 NAME
-  let userName = nameInput.value.trim() || "Friend";
-  popupNameSpan.textContent = userName;
-
-  // 🔊 SPEAK
-  speakBirthday(userName);
-
-  // 🎉 POPUP
-  birthdayPopup.classList.add('show');
-  setTimeout(() => birthdayPopup.classList.remove('show'), 3800);
-
-  statusDiv.innerHTML = `🎉 HAPPY BIRTHDAY ${userName}! 🎂`;
-  blowPromptDiv.classList.add('hidden');
-}
 </script>
 </body>
 </html>
