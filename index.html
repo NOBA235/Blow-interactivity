@@ -14,23 +14,48 @@
     }
 
     body {
+      height: 100vh;
       min-height: 100vh;
       background: linear-gradient(145deg, #0b2b3b 0%, #1a3f2c 100%);
       font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Montserrat', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 1rem;
+      padding: 0.8rem;
+      overflow: hidden;
     }
+    .star {
+  position: fixed;
+  font-size: 18px;
+  pointer-events: none;
+  animation: floatStar 1.8s ease-out forwards;
+  z-index: 1500;
+}
+
+@keyframes floatStar {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y)) scale(1.5);
+  }
+}
 
     .birthday-card {
       max-width: 600px;
       width: 100%;
+      max-height: calc(100vh - 1.6rem);
+      margin: 0 auto;
       background: rgba(255, 250, 235, 0.97);
       border-radius: 2.5rem;
       box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255,255,255,0.8);
       overflow: hidden;
-      padding: 1.2rem 1.2rem 1.8rem;
+      padding: 1rem 1rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     h1 {
@@ -84,8 +109,20 @@
       background: transparent;
       outline: none;
       font-family: inherit;
-      width: 140px;
+      flex: 1;
+      min-width: 0;
+      width: 100%;
       font-weight: 500;
+    }
+
+    .name-input {
+      min-width: 0;
+    }
+
+    .wish-badge {
+      flex: 1 1 auto;
+      justify-content: center;
+      min-width: 170px;
     }
 
     .wish-badge {
@@ -202,8 +239,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
-      margin: 1rem 0 1.2rem;
+      gap: 0.8rem;
+      margin: 0.8rem 0 1rem;
     }
 
     button {
@@ -256,11 +293,11 @@
       text-align: center;
       background: #e9e3d5;
       border-radius: 50px;
-      padding: 12px 10px;
-      font-size: 0.85rem;
+      padding: 10px 10px;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #2c3e2f;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .blow-prompt {
@@ -345,7 +382,8 @@
     }
 
     .music-control {
-      text-align: center;
+      display: flex;
+      justify-content: center;
       margin-top: 8px;
     }
 
@@ -354,7 +392,7 @@
       box-shadow: 0 3px 0 #5a3a1a;
       padding: 6px 16px;
       font-size: 0.75rem;
-      min-width: auto;
+      min-width: 180px;
     }
 
     footer {
@@ -365,14 +403,32 @@
     }
 
     @media (max-width: 550px) {
-      .candles-container { gap: 12px; }
-      .candle-body { width: 26px; height: 68px; }
-      .flame { width: 24px; height: 38px; }
-      .cake-base { width: 210px; }
-      .cake-middle { width: 180px; }
-      .cake-top { width: 150px; }
-      .popup-message { font-size: 1.2rem; white-space: nowrap; padding: 0.7rem 1.4rem; }
-      button { padding: 12px 14px; min-width: 140px; font-size: 0.9rem; }
+      .birthday-card { max-height: calc(100vh - 1rem); }
+      .candles-container { gap: 10px; }
+      .candle-body { width: 24px; height: 64px; }
+      .flame { width: 22px; height: 34px; }
+      .cake-base { width: 190px; }
+      .cake-middle { width: 160px; }
+      .cake-top { width: 140px; }
+      .sub { font-size: 0.8rem; }
+      h1 { font-size: 1.6rem; }
+      .popup-message { font-size: 1.1rem; white-space: nowrap; padding: 0.65rem 1.2rem; }
+      button { padding: 10px 12px; min-width: 120px; font-size: 0.85rem; }
+      .actions { flex-direction: column; align-items: stretch; }
+      button { width: 100%; }
+      .music-control { width: 100%; }
+      .music-toggle { width: 100%; }
+      .wish-badge { justify-content: center; }
+      .personalization { padding: 0.6rem 0.8rem; }
+    }
+    @media (max-height: 700px) {
+      body { padding: 0.5rem; }
+      .birthday-card { max-height: calc(100vh - 1rem); padding: 0.8rem 0.9rem 1.1rem; }
+      .cake-stage { margin: 0.6rem 0 0.8rem; }
+      .actions { margin: 0.6rem 0 0.8rem; }
+      .music-control { margin-top: 6px; }
+      .status { margin-top: 6px; font-size: 0.8rem; }
+      .blow-prompt { margin-top: 0.6rem; font-size: 0.85rem; padding: 0.65rem 0.9rem; }
     }
 
     @media (max-width: 450px) {
@@ -786,6 +842,81 @@
       if (musicInterval) clearInterval(musicInterval);
     });
   })();
+  // 🌟 STAR BURST
+function launchStars() {
+  const starCount = 25;
+
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.textContent = '✨';
+
+    const x = (Math.random() - 0.5) * 400 + 'px';
+    const y = (Math.random() - 0.5) * 400 + 'px';
+
+    star.style.setProperty('--x', x);
+    star.style.setProperty('--y', y);
+
+    star.style.left = '50%';
+    star.style.top = '50%';
+
+    document.body.appendChild(star);
+
+    setTimeout(() => star.remove(), 1800);
+  }
+}
+
+// 🎵 PLAY REAL SONG
+function playBirthdaySong() {
+  const audio = document.getElementById('birthdaySong');
+  if (!audio) return;
+
+  audio.currentTime = 0;
+  audio.play().catch(() => {});
+}
+
+// 🔊 VOICE MESSAGE
+function speakBirthday(name) {
+  const msg = new SpeechSynthesisUtterance(`Happy Birthday ${name}`);
+  msg.pitch = 1.2;
+  msg.rate = 0.9;
+  speechSynthesis.speak(msg);
+}
+function extinguishCandlesAndCelebrate() {
+  if (candlesBlown) return;
+
+  currentFlames.forEach(flame => {
+    flame.classList.add('extinguished');
+  });
+
+  candlesBlown = true;
+
+  // 🎉 CONFETTI
+  canvasConfetti({ particleCount: 200, spread: 100 });
+
+  // 🌟 NEW STAR EFFECT
+  launchStars();
+
+  // 🎇 existing burst
+  launchRichBurst();
+
+  // 🎵 PLAY SONG
+  playBirthdaySong();
+
+  // 👤 NAME
+  let userName = nameInput.value.trim() || "Friend";
+  popupNameSpan.textContent = userName;
+
+  // 🔊 SPEAK
+  speakBirthday(userName);
+
+  // 🎉 POPUP
+  birthdayPopup.classList.add('show');
+  setTimeout(() => birthdayPopup.classList.remove('show'), 3800);
+
+  statusDiv.innerHTML = `🎉 HAPPY BIRTHDAY ${userName}! 🎂`;
+  blowPromptDiv.classList.add('hidden');
+}
 </script>
 </body>
 </html>
