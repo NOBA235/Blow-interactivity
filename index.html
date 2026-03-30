@@ -268,6 +268,63 @@
       margin-top: 12px;
     }
 
+    .blow-prompt {
+      background: rgba(255, 255, 255, 0.95);
+      color: #2a6b51;
+      border: 1px solid #b2d8c5;
+      border-radius: 999px;
+      padding: 0.85rem 1rem;
+      margin-top: 0.9rem;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      animation: pulsePrompt 2.5s ease-in-out infinite;
+    }
+
+    .blow-prompt.hidden {
+      display: none;
+    }
+
+    .cracker-burst {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1100;
+      overflow: hidden;
+    }
+
+    .cracker-burst span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 36px;
+      border-radius: 8px;
+      opacity: 0;
+      transform-origin: bottom center;
+      animation: cracker-burst 1s ease-out forwards;
+    }
+
+    @keyframes pulsePrompt {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes cracker-burst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scaleY(0.4) rotate(0deg);
+      }
+      35% {
+        opacity: 1;
+        transform: translate(-50%, -300%) scaleY(1.1) rotate(20deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -500%) scaleY(1) rotate(40deg);
+      }
+    }
+
     /* popup overlay (happy birthday message) */
     .popup-message {
       position: fixed;
@@ -364,7 +421,7 @@
   <div class="personalization">
     <div class="name-input">
       <label>🎈 Name:</label>
-      <input type="text" id="birthdayName" placeholder="Your name" value="Friend" maxlength="20">
+      <input type="text" id="birthdayName" placeholder="Your name" value="Mhademo" maxlength="20">
     </div>
     <div class="wish-badge">
       💫 "Make a wish" before you blow!
@@ -386,16 +443,21 @@
 
   <!-- Control panel -->
   <div class="actions">
-    <button id="startMicBtn" class="mic-btn">🎤 Start Microphone & Listen</button>
+    <button id="startMicBtn" class="mic-btn">👆 Tap here & blow the candle!</button>
     <button id="resetBtn" class="reset-btn">🔄 Reset / Relight Candles</button>
-    <button id="playMusicBtn" class="music-btn">🎵 Play Birthday Melody</button>
   </div>
 
   <div id="statusMsg" class="status" role="status" aria-live="polite">
-    ⚡ Click "Start Microphone" and allow permission, then blow into your mic!
+    ⚡ Tap the button and blow the candle to celebrate!
+  </div>
+  <div id="blowPrompt" class="blow-prompt">
+    💨 Keep blowing until the candle goes out!
   </div>
   <footer>💨 Blow strongly – the louder the wind, the quicker candles go out!</footer>
 </div>
+
+<!-- Confetti/Cracker overlay -->
+<div id="crackerBurst" class="cracker-burst"></div>
 
 <!-- Global popup overlay -->
 <div id="birthdayPopup" class="popup-message">🎉 Happy Birthday <span id="popupName">Friend</span>! 🎂</div>
@@ -405,8 +467,9 @@
   const candlesContainer = document.getElementById('candlesContainer');
   const startMicBtn = document.getElementById('startMicBtn');
   const resetBtn = document.getElementById('resetBtn');
-  const playMusicBtn = document.getElementById('playMusicBtn');
   const statusDiv = document.getElementById('statusMsg');
+  const blowPrompt = document.getElementById('blowPrompt');
+  const crackerBurst = document.getElementById('crackerBurst');
   const birthdayPopup = document.getElementById('birthdayPopup');
   const popupNameSpan = document.getElementById('popupName');
   const nameInput = document.getElementById('birthdayName');
@@ -458,10 +521,11 @@
     if (isMicActive) {
       statusDiv.innerHTML = "🎙️ Microphone active — listening for a blow! 💨 Make a wish and blow!";
     } else {
-      statusDiv.innerHTML = "✨ Candles are lit! Press 'Start Microphone' to enable blow detection. ✨";
+      statusDiv.innerHTML = "✨ Candles are lit! Tap here and blow the candle to begin the fun. ✨";
     }
     // hide any leftover popup if shown
     birthdayPopup.classList.remove('show');
+    setBlowPromptVisible(true);
   }
 
   // Extinguish all candles (flame off animation)
@@ -690,10 +754,11 @@
       startVolumeMonitoring();
       statusDiv.innerHTML = "🎙️ Microphone active — Candles relit! Make a wish & blow! 💨";
     } else if (!isMicActive) {
-      statusDiv.innerHTML = "🕯️ Candles are lit again! Press 'Start Microphone' to enable blow detection.";
+      statusDiv.innerHTML = "🕯️ Candles are lit again! Tap the button and blow the candle.";
     } else {
       statusDiv.innerHTML = "✨ Candles relit! Microphone is active, blow again! ✨";
     }
+    setBlowPromptVisible(true);
     // hide any popup if visible
     birthdayPopup.classList.remove('show');
   }
@@ -701,9 +766,12 @@
   // ------------------------- Birthday Melody using Web Audio (Nice-to-have feature) -------------------------
   let musicContext = null;
   let isPlayingMelody = false;
+  let isAutoPlayingMelody = false;
   
   async function playHappyBirthdayMelody() {
-    if (isPlayingMelody) return;
+    if (isPlayingMelody) {
+      return Promise.resolve();
+    }
     // create separate audio context for music (to not interfere with mic)
     let melodyCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (melodyCtx.state === 'suspended') {
@@ -733,11 +801,49 @@
       osc.stop(time + durations[i]);
       time += durations[i];
     }
+    const totalTime = durations.reduce((a,b)=>a+b,0) + 0.5;
     // after last note, close context after delay to free resources
+    return new Promise(resolve => {
+      setTimeout(() => {
+        melodyCtx.close().catch(e=>{});
+        isPlayingMelody = false;
+        resolve();
+      }, totalTime * 1000);
+    });
+  }
+  
+  async function startAutoMelody() {
+    if (isAutoPlayingMelody) return;
+    isAutoPlayingMelody = true;
+    while (isAutoPlayingMelody) {
+      await playHappyBirthdayMelody();
+      await new Promise(res => setTimeout(res, 400));
+    }
+  }
+  
+  function setBlowPromptVisible(visible) {
+    if (!blowPrompt) return;
+    if (visible) blowPrompt.classList.remove('hidden');
+    else blowPrompt.classList.add('hidden');
+  }
+  
+  function launchCrackerBurst() {
+    if (!crackerBurst) return;
+    crackerBurst.innerHTML = '';
+    const colors = ['#ffd966', '#ff6b6b', '#4ecdc4', '#f48fb1', '#8d99ae'];
+    for (let i = 0; i < 12; i++) {
+      const spark = document.createElement('span');
+      const angle = (i / 12) * 360;
+      spark.style.background = colors[i % colors.length];
+      spark.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+      spark.style.animationDelay = `${i * 0.03}s`;
+      crackerBurst.appendChild(spark);
+    }
+    crackerBurst.classList.add('show');
     setTimeout(() => {
-      melodyCtx.close().catch(e=>{});
-      isPlayingMelody = false;
-    }, (durations.reduce((a,b)=>a+b,0) + 0.5) * 1000);
+      crackerBurst.classList.remove('show');
+      crackerBurst.innerHTML = '';
+    }, 1200);
   }
   
   // ------------------------- Event Listeners & Initialization -------------------------
@@ -751,12 +857,15 @@
     });
   });
   
+  document.body.addEventListener('pointerdown', () => {
+    startAutoMelody().catch(() => {});
+  }, { once: true });
+  document.body.addEventListener('keydown', () => {
+    startAutoMelody().catch(() => {});
+  }, { once: true });
+  
   resetBtn.addEventListener('click', () => {
     resetCakeAndDetection();
-  });
-  
-  playMusicBtn.addEventListener('click', () => {
-    playHappyBirthdayMelody().catch(e => console.warn("Music playback error:", e));
   });
   
   // On name input change, keep the popup name in sync
