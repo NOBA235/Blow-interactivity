@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>🎂 Birthday Blowout | Blow the Candles!</title>
-  <!-- canvas-confetti for high-performance celebrations -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
   <style>
     * {
@@ -24,7 +23,6 @@
       padding: 1rem;
     }
 
-    /* main card container - mobile-first, resilient touch targets */
     .birthday-card {
       max-width: 600px;
       width: 100%;
@@ -33,18 +31,14 @@
       box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255,255,255,0.8);
       overflow: hidden;
       padding: 1.2rem 1.2rem 1.8rem;
-      transition: all 0.2s ease;
-      backdrop-filter: blur(2px);
     }
 
     h1 {
       text-align: center;
       font-size: 1.8rem;
-      letter-spacing: -0.3px;
       color: #e85d04;
       text-shadow: 2px 2px 0 #ffd966;
       margin-bottom: 0.2rem;
-      word-break: keep-all;
     }
 
     .sub {
@@ -55,7 +49,6 @@
       font-size: 0.85rem;
     }
 
-    /* personalization row - stacked on mobile, row on wider */
     .personalization {
       display: flex;
       flex-wrap: wrap;
@@ -82,7 +75,6 @@
     .name-input label {
       font-weight: 700;
       color: #bc6c25;
-      font-size: 0.9rem;
     }
 
     .name-input input {
@@ -94,7 +86,6 @@
       font-family: inherit;
       width: 140px;
       font-weight: 500;
-      color: #2f3e46;
     }
 
     .wish-badge {
@@ -107,11 +98,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       white-space: nowrap;
     }
 
-    /* CAKE STAGE - enhanced visibility */
     .cake-stage {
       display: flex;
       flex-direction: column;
@@ -128,7 +117,6 @@
     }
 
     .cake-base {
-      background: #e9c891;
       width: 260px;
       height: 100px;
       border-radius: 20px 20px 40px 40px;
@@ -138,26 +126,21 @@
     }
 
     .cake-middle {
-      background: #f5cd94;
       width: 220px;
       height: 70px;
       border-radius: 20px 20px 30px 30px;
       margin-bottom: -15px;
       background: linear-gradient(135deg, #ffe0a3, #f2c77a);
-      box-shadow: inset 0 1px 4px rgba(0,0,0,0.1);
     }
 
     .cake-top {
-      background: #ffda85;
       width: 180px;
       height: 45px;
       border-radius: 30px 30px 20px 20px;
       margin-bottom: 5px;
       background: radial-gradient(circle at 30% 30%, #fff0bc, #f7c46e);
-      box-shadow: inset 0 1px 4px #ffefc0;
     }
 
-    /* candles container - bigger, vibrant flames */
     .candles-container {
       display: flex;
       justify-content: center;
@@ -180,40 +163,41 @@
       width: 32px;
       height: 78px;
       border-radius: 18px 18px 8px 8px;
-      box-shadow: inset -2px -2px 0 rgba(0,0,0,0.1), inset 2px 2px 0 rgba(255,255,255,0.5);
     }
 
-    /* FLAME - BRIGHT & VISIBLE even when small */
+    /* 🔥 SUPER BRIGHT FLAME - VERY VISIBLE */
     .flame {
       width: 28px;
-      height: 40px;
-      background: radial-gradient(circle at 35% 30%, #ffcc33, #ff8800, #ff4400);
-      border-radius: 45% 55% 40% 40%;
-      filter: blur(0px) drop-shadow(0 0 12px #ffaa33);
+      height: 42px;
+      background: radial-gradient(circle at 35% 30%, #ffdd77, #ffaa33, #ff6600);
+      border-radius: 50% 50% 40% 40%;
+      filter: drop-shadow(0 0 12px #ffaa44) brightness(1.2);
       margin-bottom: -12px;
       transform-origin: bottom;
       transition: all 0.2s cubic-bezier(0.3, 1.2, 0.5, 1);
       cursor: pointer;
-      animation: flicker 0.18s infinite alternate;
+      animation: flickerGlow 0.2s infinite alternate;
     }
 
-    /* strong flicker for unlit state - easier to notice */
-    @keyframes flicker {
-      0% { transform: scale(1) translateY(0px); opacity: 1; text-shadow: 0 0 5px orange; }
-      100% { transform: scale(1.04) translateY(-2px); opacity: 0.95; box-shadow: 0 0 16px #ffaa33; }
+    @keyframes flickerGlow {
+      0% { 
+        transform: scale(1) translateY(0px); 
+        filter: drop-shadow(0 0 8px #ffaa44) brightness(1);
+      }
+      100% { 
+        transform: scale(1.08) translateY(-3px); 
+        filter: drop-shadow(0 0 20px #ff8833) brightness(1.3);
+      }
     }
 
-    /* extinguished: completely invisible + no animation */
     .flame.extinguished {
       opacity: 0;
-      transform: scale(0.2) translateY(10px);
-      box-shadow: none;
+      transform: scale(0.2) translateY(12px);
       filter: none;
       animation: none;
       transition: 0.25s ease-out;
     }
 
-    /* action buttons - big touch zones for mobile */
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -257,6 +241,17 @@
       box-shadow: 0 5px 0 #2c4a6e;
     }
 
+    button.music-btn {
+      background: #bc6c25;
+      box-shadow: 0 5px 0 #8b4c1a;
+      animation: pulseMusic 2s infinite;
+    }
+
+    @keyframes pulseMusic {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; transform: scale(0.98); }
+    }
+
     .status {
       text-align: center;
       background: #e9e3d5;
@@ -266,11 +261,10 @@
       font-weight: 600;
       color: #2c3e2f;
       margin-top: 8px;
-      word-break: break-word;
     }
 
     .blow-prompt {
-      background: rgba(0, 0, 0, 0.75);
+      background: linear-gradient(135deg, #2c5f2d, #1e3a1e);
       backdrop-filter: blur(12px);
       color: #ffec9f;
       border-radius: 999px;
@@ -279,16 +273,13 @@
       text-align: center;
       font-weight: 700;
       font-size: 0.9rem;
-      letter-spacing: 0.5px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      transition: all 0.2s;
+      border: 1px solid #ffd966;
     }
 
     .blow-prompt.hidden {
       display: none;
     }
 
-    /* Celebration burst: fullscreen rich particles */
     .celebration-burst {
       position: fixed;
       inset: 0;
@@ -326,7 +317,6 @@
       }
     }
 
-    /* popup message for birthday */
     .popup-message {
       position: fixed;
       top: 30%;
@@ -346,8 +336,6 @@
       transition: 0.2s ease-out;
       text-align: center;
       white-space: nowrap;
-      letter-spacing: 1px;
-      font-family: 'Poppins', monospace;
     }
 
     .popup-message.show {
@@ -356,67 +344,40 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
+    .music-control {
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .music-toggle {
+      background: #8b5a2b;
+      box-shadow: 0 3px 0 #5a3a1a;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      min-width: auto;
+    }
+
     footer {
       text-align: center;
       font-size: 0.7rem;
       margin-top: 1rem;
       color: #ab8a60;
-      font-weight: 500;
     }
 
-    /* mobile refinements */
     @media (max-width: 550px) {
-      .birthday-card {
-        padding: 1rem;
-      }
-      .candles-container {
-        gap: 12px;
-      }
-      .candle-body {
-        width: 26px;
-        height: 68px;
-      }
-      .flame {
-        width: 24px;
-        height: 36px;
-      }
-      .cake-base {
-        width: 210px;
-      }
-      .cake-middle {
-        width: 180px;
-      }
-      .cake-top {
-        width: 150px;
-      }
-      .popup-message {
-        font-size: 1.2rem;
-        white-space: nowrap;
-        padding: 0.7rem 1.4rem;
-      }
-      button {
-        padding: 12px 14px;
-        min-width: 140px;
-        font-size: 0.9rem;
-      }
-      h1 {
-        font-size: 1.6rem;
-      }
+      .candles-container { gap: 12px; }
+      .candle-body { width: 26px; height: 68px; }
+      .flame { width: 24px; height: 38px; }
+      .cake-base { width: 210px; }
+      .cake-middle { width: 180px; }
+      .cake-top { width: 150px; }
+      .popup-message { font-size: 1.2rem; white-space: nowrap; padding: 0.7rem 1.4rem; }
+      button { padding: 12px 14px; min-width: 140px; font-size: 0.9rem; }
     }
 
     @media (max-width: 450px) {
-      .personalization {
-        flex-direction: column;
-        align-items: stretch;
-        border-radius: 32px;
-      }
-      .wish-badge {
-        justify-content: center;
-      }
-      .popup-message {
-        font-size: 1rem;
-        white-space: nowrap;
-      }
+      .personalization { flex-direction: column; align-items: stretch; }
+      .wish-badge { justify-content: center; }
     }
   </style>
 </head>
@@ -450,24 +411,29 @@
     <button id="resetBtn" class="reset-btn">🔄 Relight Candles</button>
   </div>
 
+  <div class="music-control">
+    <button id="playMusicBtn" class="music-toggle">🎵 Play Birthday Music 🎵</button>
+  </div>
+
   <div id="statusMsg" class="status" role="status" aria-live="polite">
     🔥 Tap "Activate Mic" and blow strongly! 🔥
   </div>
   <div id="blowPrompt" class="blow-prompt">
     💨 Keep blowing — the louder, the faster the candles go out!
   </div>
-  <footer>🎵 Birthday melody plays automatically ✨ | Blow into mic for instant celebration</footer>
+  <footer>🎵 Tap the music button to play Happy Birthday! 🎵 | Blow into mic for celebration</footer>
 </div>
 
 <div id="celebrationBurst" class="celebration-burst"></div>
 <div id="birthdayPopup" class="popup-message">🎉 Happy Birthday <span id="popupName">Friend</span>! 🎂🎈</div>
 
 <script>
-  (function(){
-    // ------------------------- DOM Elements -------------------------
+  (function() {
+    // DOM Elements
     const candlesContainer = document.getElementById('candlesContainer');
     const startMicBtn = document.getElementById('startMicBtn');
     const resetBtn = document.getElementById('resetBtn');
+    const playMusicBtn = document.getElementById('playMusicBtn');
     const statusDiv = document.getElementById('statusMsg');
     const blowPromptDiv = document.getElementById('blowPrompt');
     const celebrationBurst = document.getElementById('celebrationBurst');
@@ -475,38 +441,35 @@
     const popupNameSpan = document.getElementById('popupName');
     const nameInput = document.getElementById('birthdayName');
 
-    // ------------------------- STATE -------------------------
+    // State
     let mediaStream = null;
     let audioContext = null;
     let sourceNode = null;
     let analyserNode = null;
     let animationFrameId = null;
     let isMicActive = false;
-    let candlesBlown = false;      // all candles out
+    let candlesBlown = false;
     let currentFlames = [];
-    
-    // Blow detection thresholds (tuned for mobile)
-    const BLOW_THRESHOLD = 14;      // sensitive enough but avoids false triggers
     let consecutiveBlowFrames = 0;
-    const MIN_BLOW_FRAMES = 2;      // quick response
+    const BLOW_THRESHOLD = 14;
+    const MIN_BLOW_FRAMES = 2;
 
-    // --- Persistent Birthday Music (auto-playing, looping happy birthday)
-    let musicPlaying = false;
-    let musicAllowed = false;        // will enable after any user interaction (auto-play policies)
-    let musicLoopInterval = null;
-    let melodyCtx = null;
-    let isCurrentlyPlayingMelody = false;
-    
-    // Preload happy birthday notes (vibrant)
+    // Music state
+    let musicEnabled = false;
+    let currentMusicCtx = null;
+    let isPlayingMelody = false;
+    let musicInterval = null;
+
+    // Happy Birthday notes (bright and cheerful)
     const NOTE_FREQS = [
-      261.63, 261.63, 293.66, 261.63, 349.23, 329.63,  // Happy Birthday to You
-      261.63, 261.63, 293.66, 261.63, 392.00, 349.23,  // Happy Birthday to You
-      261.63, 261.63, 523.25, 440.00, 349.23, 329.63, 293.66, // Happy Birthday Dear [Name]
+      261.63, 261.63, 293.66, 261.63, 349.23, 329.63,
+      261.63, 261.63, 293.66, 261.63, 392.00, 349.23,
+      261.63, 261.63, 523.25, 440.00, 349.23, 329.63, 293.66,
       466.16, 466.16, 440.00, 349.23, 392.00, 349.23
     ];
     const NOTE_DUR = [0.45, 0.45, 0.45, 0.45, 0.45, 1, 0.45, 0.45, 0.45, 0.45, 0.45, 1, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 0.45, 1.2];
-    
-    // create candles with vibrant flames (6 candles)
+
+    // Create candles with bright flames
     function createCandles(count = 6) {
       candlesContainer.innerHTML = '';
       const flames = [];
@@ -525,7 +488,7 @@
       return flames;
     }
 
-    // Relight candles (clear blown state)
+    // Relight candles
     function relightCandles() {
       if (!currentFlames.length) return;
       currentFlames.forEach(flame => {
@@ -542,45 +505,7 @@
       birthdayPopup.classList.remove('show');
     }
 
-    // EXTINGUISH ALL + Celebration burst (MEGA EFFECT)
-    function extinguishCandlesAndCelebrate() {
-      if (candlesBlown) return;
-      if (!currentFlames.length) return;
-      // turn off all flames
-      currentFlames.forEach(flame => {
-        flame.classList.add('extinguished');
-      });
-      candlesBlown = true;
-      
-      // ====== BURST CELEBRATION: particle explosion + canvas-confetti + dynamic ribbons ======
-      // 1) canvas confetti (fullscreen joy)
-      canvasConfetti({ particleCount: 200, spread: 100, origin: { y: 0.5 }, startVelocity: 20, colors: ['#ffb347', '#ff6b6b', '#4ecdc4', '#f9c74f', '#f9844a'] });
-      setTimeout(() => {
-        canvasConfetti({ particleCount: 90, spread: 65, origin: { y: 0.6, x: 0.2 }, startVelocity: 15 });
-        canvasConfetti({ particleCount: 90, spread: 65, origin: { y: 0.6, x: 0.8 }, startVelocity: 15 });
-      }, 100);
-      
-      // 2) custom burst flying elements (screen explosion)
-      launchRichBurst();
-      
-      // 3) Personalized popup message
-      let userName = nameInput.value.trim();
-      if (userName === "") userName = "Friend";
-      popupNameSpan.textContent = userName;
-      birthdayPopup.classList.add('show');
-      setTimeout(() => birthdayPopup.classList.remove('show'), 3800);
-      
-      // 4) Update status
-      statusDiv.innerHTML = `🎉🎂 HAPPY BIRTHDAY ${userName.toUpperCase()}! Candles blown out! 🎂🎉`;
-      blowPromptDiv.classList.add('hidden');
-      
-      // 5) extra mini confetti after 0.6s
-      setTimeout(() => {
-        canvasConfetti({ particleCount: 60, spread: 45, startVelocity: 12, origin: { y: 0.7 } });
-      }, 300);
-    }
-    
-    // Full burst effect (colorful sticks)
+    // Celebration burst
     function launchRichBurst() {
       if (!celebrationBurst) return;
       celebrationBurst.innerHTML = '';
@@ -602,8 +527,41 @@
         if (celebrationBurst) celebrationBurst.innerHTML = '';
       }, 1300);
     }
-    
-    // ---------- MICROPHONE & VOLUME BLOW DETECTION (production ready) ----------
+
+    // Extinguish candles with celebration
+    function extinguishCandlesAndCelebrate() {
+      if (candlesBlown) return;
+      if (!currentFlames.length) return;
+      
+      currentFlames.forEach(flame => {
+        flame.classList.add('extinguished');
+      });
+      candlesBlown = true;
+      
+      // Confetti celebration
+      canvasConfetti({ particleCount: 200, spread: 100, origin: { y: 0.5 }, startVelocity: 20 });
+      setTimeout(() => {
+        canvasConfetti({ particleCount: 90, spread: 65, origin: { y: 0.6, x: 0.2 } });
+        canvasConfetti({ particleCount: 90, spread: 65, origin: { y: 0.6, x: 0.8 } });
+      }, 100);
+      
+      launchRichBurst();
+      
+      let userName = nameInput.value.trim();
+      if (userName === "") userName = "Friend";
+      popupNameSpan.textContent = userName;
+      birthdayPopup.classList.add('show');
+      setTimeout(() => birthdayPopup.classList.remove('show'), 3800);
+      
+      statusDiv.innerHTML = `🎉🎂 HAPPY BIRTHDAY ${userName.toUpperCase()}! 🎂🎉`;
+      blowPromptDiv.classList.add('hidden');
+      
+      setTimeout(() => {
+        canvasConfetti({ particleCount: 60, spread: 45, startVelocity: 12 });
+      }, 300);
+    }
+
+    // Microphone setup
     async function initMicrophone() {
       if (mediaStream) {
         stopMicrophoneTracks();
@@ -624,25 +582,21 @@
         if (audioContext.state === 'suspended') await audioContext.resume();
         
         isMicActive = true;
-        // ensure candles are lit (in case previous blow)
         if (candlesBlown) relightCandles();
-        else relightCandles(); // sync lit state
+        else relightCandles();
         
         statusDiv.innerHTML = "🎤 Microphone ready! 💨 Blow strongly into mic to extinguish candles!";
         startMicBtn.textContent = "🎤 Mic Active ✅";
-        startMicBtn.disabled = false;
-        startMicBtn.style.opacity = "0.9";
         
-        // start blow monitoring loop
         startBlowMonitoring();
       } catch (err) {
         console.error(err);
-        statusDiv.innerHTML = "❌ Microphone access denied. Please allow permissions and try again.";
+        statusDiv.innerHTML = "❌ Microphone access denied. Please allow permissions.";
         isMicActive = false;
         startMicBtn.textContent = "🎤 Retry Microphone";
       }
     }
-    
+
     function startBlowMonitoring() {
       if (!analyserNode || !isMicActive) return;
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
@@ -651,13 +605,8 @@
       
       function monitor() {
         if (!isMicActive || !analyserNode || candlesBlown) {
-          if (candlesBlown && animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-            animationFrameId = null;
-          } else if (!isMicActive && animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-            animationFrameId = null;
-          }
+          if (animationFrameId) cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
           return;
         }
         analyserNode.getByteTimeDomainData(dataArray);
@@ -682,13 +631,14 @@
           } else {
             consecutiveBlowFrames = Math.max(0, consecutiveBlowFrames - 0.7);
           }
-          // Dynamic status feedback
+          
           if (volume > 40 && !candlesBlown) {
             statusDiv.innerHTML = `💨 Great blow! Volume: ${Math.floor(volume)} — Keep going! 🕯️`;
           } else if (!candlesBlown) {
             statusDiv.innerHTML = `🎤 Blow into mic! (volume: ${Math.floor(volume)}) 💨`;
           }
         }
+        
         if (!candlesBlown && isMicActive) {
           animationFrameId = requestAnimationFrame(monitor);
         } else {
@@ -698,7 +648,7 @@
       }
       animationFrameId = requestAnimationFrame(monitor);
     }
-    
+
     function stopMicrophoneTracks() {
       if (mediaStream) {
         mediaStream.getTracks().forEach(t => t.stop());
@@ -710,7 +660,7 @@
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       isMicActive = false;
     }
-    
+
     function resetCakeAndMic() {
       relightCandles();
       if (isMicActive && analyserNode && !candlesBlown) {
@@ -720,83 +670,105 @@
         statusDiv.innerHTML = "🎙️ Candles relit! Blow again to celebrate! 💨";
       } else if (!isMicActive) {
         statusDiv.innerHTML = "🕯️ Candles lit! Tap mic button to start blowing fun.";
-      } else {
-        statusDiv.innerHTML = "✨ Candles relit! Keep microphone active, blow away! ✨";
       }
       blowPromptDiv.classList.remove('hidden');
     }
-    
-    // ---------- AUTO PLAYING BIRTHDAY MUSIC (Continuous loop) ----------
-    function enableMusicOnInteraction() {
-      if (musicAllowed) return;
-      musicAllowed = true;
-      startContinuousBirthdayMusic();
-    }
-    
-    async function playSingleHappyBirthday() {
-      if (!musicAllowed) return Promise.resolve();
-      if (isCurrentlyPlayingMelody) return Promise.resolve();
+
+    // 🎵 IMPROVED MUSIC PLAYER - Works on mobile with user tap 🎵
+    async function playHappyBirthdayMelody() {
+      if (!musicEnabled) {
+        statusDiv.innerHTML = "🎵 Tap the music button first to enable birthday melody! 🎵";
+        return false;
+      }
+      
+      if (isPlayingMelody) return false;
+      
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        if (ctx.state === 'suspended') await ctx.resume();
-        isCurrentlyPlayingMelody = true;
-        let time = ctx.currentTime;
+        if (ctx.state === 'suspended') {
+          await ctx.resume();
+        }
+        
+        isPlayingMelody = true;
+        let currentTime = ctx.currentTime;
+        
         for (let i = 0; i < NOTE_FREQS.length; i++) {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.frequency.value = NOTE_FREQS[i];
-          gain.gain.setValueAtTime(0.28, time);
-          gain.gain.exponentialRampToValueAtTime(0.0001, time + NOTE_DUR[i]);
-          osc.start(time);
-          osc.stop(time + NOTE_DUR[i]);
-          time += NOTE_DUR[i] + 0.02;
+          osc.type = 'sine';
+          gain.gain.setValueAtTime(0.25, currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, currentTime + NOTE_DUR[i]);
+          osc.start(currentTime);
+          osc.stop(currentTime + NOTE_DUR[i]);
+          currentTime += NOTE_DUR[i] + 0.02;
         }
-        const totalDuration = NOTE_DUR.reduce((a,b)=>a+b,0) + 0.8;
+        
+        const totalDuration = NOTE_DUR.reduce((a, b) => a + b, 0) + 0.8;
         await new Promise(resolve => setTimeout(resolve, totalDuration * 1000));
-        isCurrentlyPlayingMelody = false;
-        if (ctx.state !== 'closed') await ctx.close();
-      } catch(e) { isCurrentlyPlayingMelody = false; }
-    }
-    
-    async function startContinuousBirthdayMusic() {
-      if (musicLoopInterval) clearInterval(musicLoopInterval);
-      if (!musicAllowed) return;
-      // initial play
-      await playSingleHappyBirthday();
-      musicLoopInterval = setInterval(async () => {
-        if (!musicAllowed) return;
-        await playSingleHappyBirthday();
-      }, 9600); // play every ~9.6 sec, gentle loop
-    }
-    
-    // User interaction triggers music (touch/click anywhere)
-    function setupAutoMusic() {
-      const events = ['click', 'touchstart', 'keydown'];
-      const handler = () => {
-        if (!musicAllowed) {
-          enableMusicOnInteraction();
-        }
-        events.forEach(ev => document.removeEventListener(ev, handler));
-      };
-      events.forEach(ev => document.addEventListener(ev, handler, { once: true }));
-      // also on mic button / reset we allow music early
-    }
-    
-    // ----- EVENT LISTENERS -----
-    startMicBtn.addEventListener('click', () => {
-      if (!musicAllowed) enableMusicOnInteraction();
-      if (isMicActive) {
-        statusDiv.innerHTML = "🎤 Mic already active. If not working, reset or refresh.";
-        return;
+        
+        isPlayingMelody = false;
+        await ctx.close();
+        return true;
+      } catch (err) {
+        console.error("Music error:", err);
+        isPlayingMelody = false;
+        return false;
       }
-      initMicrophone().catch(e => statusDiv.innerHTML = "Mic error: allow permission");
+    }
+
+    // Start continuous music loop
+    function startContinuousMusic() {
+      if (musicInterval) clearInterval(musicInterval);
+      musicInterval = setInterval(async () => {
+        if (musicEnabled && !isPlayingMelody && !candlesBlown) {
+          await playHappyBirthdayMelody();
+        }
+      }, 10000);
+    }
+
+    function stopContinuousMusic() {
+      if (musicInterval) {
+        clearInterval(musicInterval);
+        musicInterval = null;
+      }
+    }
+
+    // Toggle music on/off with button
+    async function enableMusic() {
+      if (musicEnabled) {
+        // Disable music
+        musicEnabled = false;
+        stopContinuousMusic();
+        playMusicBtn.textContent = "🎵 Play Birthday Music 🎵";
+        playMusicBtn.style.animation = "none";
+        statusDiv.innerHTML = "🎵 Music disabled. Tap the button to enable again! 🎵";
+      } else {
+        // Enable music
+        musicEnabled = true;
+        playMusicBtn.textContent = "🔊 Music ON 🎵";
+        playMusicBtn.style.animation = "pulseMusic 2s infinite";
+        statusDiv.innerHTML = "🎵 Happy Birthday melody is playing! Enjoy! 🎵";
+        
+        // Play immediately
+        await playHappyBirthdayMelody();
+        startContinuousMusic();
+      }
+    }
+
+    // Event Listeners
+    startMicBtn.addEventListener('click', () => {
+      initMicrophone().catch(e => statusDiv.innerHTML = "Mic error: " + e.message);
     });
     
     resetBtn.addEventListener('click', () => {
-      if (!musicAllowed) enableMusicOnInteraction();
       resetCakeAndMic();
+    });
+    
+    playMusicBtn.addEventListener('click', async () => {
+      await enableMusic();
     });
     
     nameInput.addEventListener('input', () => {
@@ -804,18 +776,14 @@
       popupNameSpan.textContent = name;
     });
     
-    // init candles (6 vibrant candles)
+    // Initialize candles
     currentFlames = createCandles(6);
     relightCandles();
     
-    // enable music auto on first interaction
-    setupAutoMusic();
-    
-    // cleanup on page unload
+    // Cleanup on page unload
     window.addEventListener('beforeunload', () => {
       if (mediaStream) stopMicrophoneTracks();
-      if (musicLoopInterval) clearInterval(musicLoopInterval);
-      if (melodyCtx) melodyCtx.close();
+      if (musicInterval) clearInterval(musicInterval);
     });
   })();
 </script>
