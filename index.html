@@ -759,45 +759,23 @@
     playHappyBirthdayMelody().catch(e => console.warn("Music playback error:", e));
   });
   
-  // On name input change, we don't need special but later popup uses current name.
+  // On name input change, keep the popup name in sync
+  nameInput.addEventListener('input', () => {
+    const name = nameInput.value.trim() || "Friend";
+    popupNameSpan.textContent = name;
+  });
+
   // Also initial creation of candles
   currentFlames = createCandles(6);   // 6 beautiful candles
   relightCandles();   // ensure flames lit at start
-  
+
   // tiny guard: if user clicks reset before mic, no issue
-  // also ensure popup name uses current input value when shown
-  const originalPopupShow = birthdayPopup.classList.add;
-  // dynamic name from input when showing
-  function patchPopupName() {
-    const name = nameInput.value.trim() || "Friend";
-    popupNameSpan.textContent = name;
-  }
-  // Overwrite blow popup naming: we already call patch in extinguishCandles, but extra sync.
-  const origExtinguish = extinguishCandles;
-  window.extinguishCandles = extinguishCandles;
-  // final sync: when extinguish, update popup name before showing
-  // extend extinguish logic to fetch latest name
-  const superExtinguish = extinguishCandles;
-  extinguishCandles = function() {
-    let userName = nameInput.value.trim();
-    if (userName === "") userName = "Friend";
-    popupNameSpan.textContent = userName;
-    superExtinguish.call(this);
-  }.bind(this);
-  // replace global function references
-  window.extinguishCandles = extinguishCandles;
-  // reassign for blow trigger
-  const blowOutFunc = extinguishCandles;
-  // also ensure relightCandles updates internal isBlown and restarts monitoring if mic active
-  const originalRelight = relightCandles;
-  window.relightCandles = relightCandles;
-  // final touch: restart monitoring on reset if mic active
-  // good already in resetCakeAndDetection.
-  
-  // small adjust: if mic not active, status shows friendly message
   if (!isMicActive) {
     statusDiv.innerHTML = "🎙️ Click 'Start Microphone' to enable the magic blow effect! 🕯️";
   }
+
+  // cleanup microphone tracks when the page unloads
+  window.addEventListener('beforeunload', stopMicrophoneTracks);
 </script>
 </body>
 </html>
